@@ -1,17 +1,40 @@
 import Link from 'next/link';
-import { Inter } from 'next/font/google';
 import Image, { ImageLoaderProps } from 'next/image';
 import { useState, useEffect } from "react";
+import { GetStaticProps, InferGetStaticPropsType } from 'next';
 
-
-const inter = Inter({ subsets: ['latin'] });
-import catalogue from '../../data/data.json';
+// import catalogue from '../../data/data.json';
 
 const myLoader = ({ width }: ImageLoaderProps) => {
   return `https://picsum.photos/${width}/`;
 }
 
-export default function Home() {
+import getData from './lib/product';
+
+type Product = {
+  id: number,
+  title: string,
+  price: number,
+  description: string,
+  category: string,
+  image: string,
+  rating: {
+    rate: number,
+    count: number,
+  }
+}
+
+export const getStaticProps: GetStaticProps<{ catalogue: Product[]}> = async () =>  {
+  const catalogue: Product[] = await getData();
+  return {
+    props: {
+      catalogue,
+    },
+  };
+}
+
+
+export default function Home({ catalogue }: InferGetStaticPropsType<typeof getStaticProps>) {
   const [filter, setFilter] = useState<string[]>([]);
   const [data, setData] = useState(catalogue);
 
@@ -34,6 +57,8 @@ export default function Home() {
       setData(filtered);
     }
   };
+
+  console.log(data[0].image)
   
   return (
     <>
@@ -58,9 +83,9 @@ export default function Home() {
               <h3>{product.title}</h3>
               <p>{product.price}</p>
               <p>{product.category}</p>
-              <Image 
+              {/* <Image 
               loader={myLoader}
-              src={product.image} alt="product pic" width={300} height={300}/>
+              src={product.image} alt="product pic" width={300} height={300}/> */}
             </Link>
           </article>
         )}
@@ -69,12 +94,3 @@ export default function Home() {
     </>
   )
 }
-
-// export async function getStaticProps() {
-//   return {
-//      props: {
-//         data,
-//      },
-//   };
-//  }
- 

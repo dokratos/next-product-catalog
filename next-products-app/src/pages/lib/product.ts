@@ -1,22 +1,13 @@
-import data from '../../../data/data.json';
+import { Product }from '../../types';
 
-export function getAllProductsIds() {
+const getData = async () => {
+  const data = await fetch('https://fakestoreapi.com/products');
+  return data.json();
+}
 
-
-  // Returns an array that looks like this:
-  // [
-  //   {
-  //     params: {
-  //       id: 'ssg-ssr'
-  //     }
-  //   },
-  //   {
-  //     params: {
-  //       id: 'pre-rendering'
-  //     }
-  //   }
-  // ]
-  return data.map((fileName) => {
+export async function getAllProductsIds() {
+  const data = await getData();
+  return data.map((fileName: Product) => {
     return {
       params: {
         id: fileName.id.toString(),
@@ -25,9 +16,12 @@ export function getAllProductsIds() {
   });
 };
 
-export function getProductData(id : number) {
+export async function getProductData(id : number) {
+  const data: Product[] = await getData();
   const product = data.filter(item => item.id === id)
   return {
     ...product,
   }
 }
+
+export default getData;
