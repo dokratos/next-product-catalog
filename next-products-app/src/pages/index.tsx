@@ -1,28 +1,10 @@
 import Link from 'next/link';
-import Image, { ImageLoaderProps } from 'next/image';
+import Image from 'next/image';
 import { useState, useEffect } from "react";
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 
-// import catalogue from '../../data/data.json';
-
-const myLoader = ({ width }: ImageLoaderProps) => {
-  return `https://picsum.photos/${width}/`;
-}
-
 import getData from './lib/product';
-
-type Product = {
-  id: number,
-  title: string,
-  price: number,
-  description: string,
-  category: string,
-  image: string,
-  rating: {
-    rate: number,
-    count: number,
-  }
-}
+import { Product } from '@/types';
 
 export const getStaticProps: GetStaticProps<{ catalogue: Product[]}> = async () =>  {
   const catalogue: Product[] = await getData();
@@ -32,7 +14,6 @@ export const getStaticProps: GetStaticProps<{ catalogue: Product[]}> = async () 
     },
   };
 }
-
 
 export default function Home({ catalogue }: InferGetStaticPropsType<typeof getStaticProps>) {
   const [filter, setFilter] = useState<string[]>([]);
@@ -57,15 +38,13 @@ export default function Home({ catalogue }: InferGetStaticPropsType<typeof getSt
       setData(filtered);
     }
   };
-
-  console.log(data[0].image)
   
   return (
     <>
       <main className='main'>
-      <h1 className="title">Read <Link href="/product">this page!</Link></h1>
       <select
       onChange={handleFilter}
+      className='select'
       >
         {filter.map((category, i) =>
         <option
@@ -80,12 +59,15 @@ export default function Home({ catalogue }: InferGetStaticPropsType<typeof getSt
           key={i}
           >
             <Link href={`/product/${product.id}`}>
-              <h3>{product.title}</h3>
+              <h3 className='product-name'>{product.title}</h3>
               <p>{product.price}</p>
               <p>{product.category}</p>
-              {/* <Image 
-              loader={myLoader}
-              src={product.image} alt="product pic" width={300} height={300}/> */}
+              <Image 
+              src={product.image} 
+              alt="product pic" 
+              width={300} 
+              height={300}
+              priority={true}/>
             </Link>
           </article>
         )}

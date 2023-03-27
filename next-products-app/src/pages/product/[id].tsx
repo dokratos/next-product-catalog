@@ -14,7 +14,6 @@ export async function getStaticPaths() {
 
 export const getStaticProps: GetStaticProps<{ productData: Product }> = async ({ params }) => {
   const productData = await getProductData(Number(params?.id));
-
   return {
     props: {
       productData: productData[0]
@@ -29,7 +28,12 @@ export default function Detail({ productData }: InferGetStaticPropsType<typeof g
       <h1>{productData.title}</h1>
       <p>{productData.price}</p>
       <p>{productData.description}</p>
-      {/* <Image></Image> */}
+      <Image 
+              src={productData.image} 
+              alt="product pic" 
+              width={300} 
+              height={300}
+              priority={true}/>
       <Link href='/'>Back Home</Link>
     </main>
   );
