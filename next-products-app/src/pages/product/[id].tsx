@@ -24,17 +24,17 @@ export const getStaticProps: GetStaticProps<{ productData: Product }> = async ({
 export default function Detail({ productData }: InferGetStaticPropsType<typeof getStaticProps>){
 
   return (
-    <main>
+    <main className='product-page'>
+      <Link href='/'>Back Home</Link>
       <h1>{productData.title}</h1>
       <p>{productData.price}</p>
       <p>{productData.description}</p>
       <Image 
               src={productData.image} 
               alt="product pic" 
-              width={300} 
-              height={300}
+              width={500} 
+              height={500}
               priority={true}/>
-      <Link href='/'>Back Home</Link>
     </main>
   );
 }

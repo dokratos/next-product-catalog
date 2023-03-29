@@ -1,4 +1,6 @@
 # next-product-catalog
+This app is an exercise from </salt> PGP to learn NEXT.JS
+
 Product navigation application that lists, shows details and search a list of products. 
 
 The application should support the following features:
@@ -16,10 +18,11 @@ Create a getStaticProps to generate the data on build time
 Implement getStaticPaths and implement a separate /details/:id page
 
 Extra Step# 
-Add new product 
+Add new product
 Update product data 
 Delete a product 
 Add a freetext search that searches for a value in any field 
+
 
 
 
