@@ -1,6 +1,8 @@
 # next-product-catalog
 This app is an exercise from </salt> PGP to learn NEXT.JS
 
+![Landing](/next-products-app/landing.png)
+![Product Page](/next-products-app/idpage.png)
 Product navigation application that lists, shows details and search a list of products. 
 
 The application should support the following features:
